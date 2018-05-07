@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+Name:        Connection_scenario
+
+Description: This scenario connects openvswitches in two scenarios
+
+Author:      Carlos Vega García (cvega@dit.upm.es)
+
+This file is part of the Virtual Networks over LinuX (VNX) Project distribution. 
+(www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es) 
+
+Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
+	      Universidad Politecnica de Madrid (UPM)
+              SPAIN
+-->
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>Connection_scenario</scenario_name>
+    <ssh_key>/root/.ssh/id_rsa.pub</ssh_key>
+    <automac offset="0"/>
+    <!--vm_mgmt type="none"/-->
+    <vm_mgmt type="private" network="10.20.0.0" mask="24" offset="0">
+       <host_mapping />
+    </vm_mgmt> 
+    <vm_defaults>
+        <console id="0" display="no"/>
+        <console id="1" display="yes"/>
+    </vm_defaults>
+    <cmd-seq seq="step1-6"></cmd-seq>
+  </global>
+
+
+  <net name="ExtNet" mode="openvswitch" mtu="1450"/>
+  <net name="VlanNet" mode="openvswitch" mtu="1450"/>
+  <net name="virbr0"  mode="virtual_bridge" managed="no"/>
+
+  <vm name="vm-vlan" type="lxc" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="VlanNet">
+      <ipv4>10.0.20.1/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy /etc/hosts file -->
+    <exec seq="on_boot" type="verbatim">
+    </exec>
+  </vm>
+
+  <vm name="vm-ExtNet" type="lxc" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="ExtNet">
+      <ipv4>10.0.10.1/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy /etc/hosts file -->
+    <exec seq="on_boot" type="verbatim">
+    </exec>
+  </vm>
+
+
+  <host>
+    <hostif net="ExtNet">
+       <ipv4>10.0.10.1/24</ipv4>
+    </hostif>
+	<hostif net="VlanNet">
+       <ipv4>10.0.20.1/24</ipv4>
+    </hostif>
+    <exec seq="on_boot" type="verbatim" ostype="system">
+
+    </exec>
+  </host>
+
+</vnx>
