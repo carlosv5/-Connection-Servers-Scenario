@@ -11,17 +11,17 @@ Starting the scenario:
   vnx -f scenario_B.xml -v -t
 
 - Configure tunnel in A:
-  ./create-tunnel ipB
+  ./scripts/create-tunnel ipB
 
 - Configure tunnel in B:
-  ./create-tunnel ipA
+  ./scripts/create-tunnel ipA
 
 Stopping the scenario:
 
 - In A:
-  ./del-tunnel
+  ./scripts/del-tunnel
   vnx -f scenario_A.xml -v --destroy
 
 - In B:
-  ./del-tunnel
+  ./scripts/del-tunnel
   vnx -f scenario_B.xml -v --destroy
