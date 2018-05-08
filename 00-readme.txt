@@ -1,27 +1,27 @@
-Escenario de prueba de tuneles GRE 
+Test scenario in order to connect two servers with GRE tunnelling
 
-Dos ordenadores A y B con direcciones ipA e ipB
+Two computers A and B with directions ipA and ipB
 
-Arranque del escenario:
+Starting the scenario:
 
-- En A arrancar escenario ovs-tunnels-a.xml:
-  vnx -f ovs-tunnels-a.xml -v -t
+- Start scenario A:
+  vnx -f scenario_A.xml -v -t
 
-- En B arrancar escenario ovs-tunnels-b.xml:
-  vnx -f ovs-tunnels-b.xml -v -t
+- Start scenario B:
+  vnx -f scenario_B.xml -v -t
 
-- En A configurar tunel:
+- Configure tunnel in A:
   ./create-tunnel ipB
 
-- En B configurar tunel:
+- Configure tunnel in B:
   ./create-tunnel ipA
 
-Parar el escenario:
+Stopping the scenario:
 
-- En A:
+- In A:
   ./del-tunnel
-  vnx -f ovs-tunnels-a.xml -v -P
+  vnx -f scenario_A.xml -v --destroy
 
-- En B:
+- In B:
   ./del-tunnel
-  vnx -f ovs-tunnels-b.xml -v -P
+  vnx -f scenario_B.xml -v --destroy
