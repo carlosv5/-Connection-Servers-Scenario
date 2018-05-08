@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TUNNSWITCH_NAME='lab'
+
+echo "--"
+echo "-- Deleting tunnel switch and ports if they exist..."
+sudo ovs-vsctl --if-exists del-port net1 ${TUNNSWITCH_NAME}-net1a
+sudo ovs-vsctl --if-exists del-port net2 ${TUNNSWITCH_NAME}-net2a
+sudo ovs-vsctl --if-exists del-br ${TUNNSWITCH_NAME}
+sudo ip link | grep ${TUNNSWITCH_NAME}-net1a > /dev/null && sudo ip link del ${TUNNSWITCH_NAME}-net1a
+sudo ip link | grep ${TUNNSWITCH_NAME}-net2a > /dev/null && sudo ip link del ${TUNNSWITCH_NAME}-net2a
+echo "-- ...OK"
+echo "--"
