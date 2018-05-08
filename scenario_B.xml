@@ -38,14 +38,14 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
   <net name="ExtNet" mode="openvswitch" mtu="1450"/>
   <net name="VlanNet" mode="openvswitch" mtu="1450"/>
 
-  <vm name="vm1-vlan" type="lxc" arch="x86_64">
+  <vm name="vm1-vlan_B" type="lxc" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
     <mem>2G</mem>
     <if id="1" net="VlanNet">
       <vlan>
          <tag id='1001'/>
       </vlan>
-      <ipv4>10.0.20.11/24</ipv4>
+      <ipv4>10.0.20.21/24</ipv4>
     </if>
     <route type="ipv4" gw="10.0.20.1">default</route>
     <!-- Copy /etc/hosts file -->
@@ -53,14 +53,14 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
     </exec>
   </vm>
 
-  <vm name="vm2-vlan" type="lxc" arch="x86_64">
+  <vm name="vm2-vlan_B" type="lxc" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
     <mem>2G</mem>
     <if id="1" net="VlanNet">
       <vlan>
          <tag id='1002'/>
       </vlan>
-      <ipv4>10.0.20.12/24</ipv4>
+      <ipv4>10.0.20.22/24</ipv4>
     </if>
     <route type="ipv4" gw="10.0.20.1">default</route>
     <!-- Copy /etc/hosts file -->
@@ -68,11 +68,11 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
     </exec>
   </vm>
 
-  <vm name="vm-ExtNet" type="lxc" arch="x86_64">
+  <vm name="vm-ExtNet_B" type="lxc" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
     <mem>2G</mem>
     <if id="1" net="ExtNet">
-      <ipv4>10.0.10.11/24</ipv4>
+      <ipv4>10.0.10.21/24</ipv4>
     </if>
     <route type="ipv4" gw="10.0.10.1">default</route>
     <!-- Copy /etc/hosts file -->
