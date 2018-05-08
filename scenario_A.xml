@@ -37,18 +37,32 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
 
   <net name="ExtNet" mode="openvswitch" mtu="1450"/>
   <net name="VlanNet" mode="openvswitch" mtu="1450"/>
-  <net name="virbr0"  mode="virtual_bridge" managed="no"/>
 
-  <vm name="vm-vlan" type="lxc" arch="x86_64">
+  <vm name="vm1-vlan" type="lxc" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
     <mem>2G</mem>
     <if id="1" net="VlanNet">
-      <ipv4>10.0.20.1/24</ipv4>
+      <vlan>
+         <tag id='1001'/>
+      </vlan>
+      <ipv4>10.0.20.13/24</ipv4>
     </if>
-    <if id="9" net="virbr0">
-      <ipv4>dhcp</ipv4>
-    </if>
+    <route type="ipv4" gw="10.0.20.2">default</route>
+    <!-- Copy /etc/hosts file -->
+    <exec seq="on_boot" type="verbatim">
+    </exec>
+  </vm>
 
+  <vm name="vm2-vlan" type="lxc" arch="x86_64">
+    <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="VlanNet">
+      <vlan>
+         <tag id='1002'/>
+      </vlan>
+      <ipv4>10.0.20.14/24</ipv4>
+    </if>
+    <route type="ipv4" gw="10.0.20.2">default</route>
     <!-- Copy /etc/hosts file -->
     <exec seq="on_boot" type="verbatim">
     </exec>
@@ -58,12 +72,9 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
     <mem>2G</mem>
     <if id="1" net="ExtNet">
-      <ipv4>10.0.10.1/24</ipv4>
+      <ipv4>10.0.10.13/24</ipv4>
     </if>
-    <if id="9" net="virbr0">
-      <ipv4>dhcp</ipv4>
-    </if>
-
+    <route type="ipv4" gw="10.0.10.2">default</route>
     <!-- Copy /etc/hosts file -->
     <exec seq="on_boot" type="verbatim">
     </exec>
@@ -72,10 +83,10 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
 
   <host>
     <hostif net="ExtNet">
-       <ipv4>10.0.10.1/24</ipv4>
+       <ipv4>10.0.10.2/24</ipv4>
     </hostif>
-	<hostif net="VlanNet">
-       <ipv4>10.0.20.1/24</ipv4>
+    <hostif net="VlanNet">
+       <ipv4>10.0.20.2/24</ipv4>
     </hostif>
     <exec seq="on_boot" type="verbatim" ostype="system">
 
