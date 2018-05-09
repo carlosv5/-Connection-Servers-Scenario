@@ -28,5 +28,5 @@ This repository develop two scenarios to connect OpenvSwitches between different
  ## Notes
  Notice that IpA and IpB are the systems IP that the other computer knows
  
- ![graph](https://github.com/carlosv5/Connection-Servers-Scenario/tree/master/img/graph.png)
+ ![scenario_graph](https://github.com/carlosv5/Connection-Servers-Scenario/blob/master/img/graph.png)
 
