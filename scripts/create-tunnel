@@ -1,6 +1,8 @@
 #!/bin/bash
 
 TUNNSWITCH_NAME='lab'
+SWITCH1='ExtNet'
+SWITCH2='VlanNet'
 
 if [ "$#" -ne 1 ]; then
     echo "--"
@@ -76,23 +78,23 @@ if ! sudo ovs-vsctl br-exists ${TUNNSWITCH_NAME}; then
     echo "-- Creating ${TUNNSWITCH_NAME} switch..."
     sudo ovs-vsctl --may-exist add-br ${TUNNSWITCH_NAME}
 
-    echo "-- Establishing connections for net1 scenario network..."
-    # Create net1 veth pair to connect net1 switch to ${TUNNSWITCH_NAME}-v1000 fake switch 
-    sudo ip link add ${TUNNSWITCH_NAME}-net1a type veth peer name ${TUNNSWITCH_NAME}-net1b
-    sudo ip link set ${TUNNSWITCH_NAME}-net1a up
-    sudo ip link set ${TUNNSWITCH_NAME}-net1b up
-    sudo ovs-vsctl add-port net1 ${TUNNSWITCH_NAME}-net1a
-    sudo ovs-vsctl add-port ${TUNNSWITCH_NAME} ${TUNNSWITCH_NAME}-net1b
-    sudo ovs-vsctl set port ${TUNNSWITCH_NAME}-net1b tag=1000
+    echo "-- Establishing connections for ${SWITCH1} scenario network..."
+    # Create ${SWITCH1} veth pair to connect ${SWITCH1} switch to ${TUNNSWITCH_NAME}-v1000 fake switch 
+    sudo ip link add ${TUNNSWITCH_NAME}-${SWITCH1}a type veth peer name ${TUNNSWITCH_NAME}-${SWITCH1}b
+    sudo ip link set ${TUNNSWITCH_NAME}-${SWITCH1}a up
+    sudo ip link set ${TUNNSWITCH_NAME}-${SWITCH1}b up
+    sudo ovs-vsctl add-port ${SWITCH1} ${TUNNSWITCH_NAME}-${SWITCH1}a
+    sudo ovs-vsctl add-port ${TUNNSWITCH_NAME} ${TUNNSWITCH_NAME}-${SWITCH1}b
+    sudo ovs-vsctl set port ${TUNNSWITCH_NAME}-${SWITCH1}b tag=1000
 
-    echo "-- Establishing connections for net2 scenario network..."
-    # Create net1 veth pair to connect net2 switch to ${TUNNSWITCH_NAME}-v1001 fake switch 
-    sudo ip link add ${TUNNSWITCH_NAME}-net2a type veth peer name ${TUNNSWITCH_NAME}-net2b
-    sudo ip link set ${TUNNSWITCH_NAME}-net2a up
-    sudo ip link set ${TUNNSWITCH_NAME}-net2b up
-    sudo ovs-vsctl add-port net2 ${TUNNSWITCH_NAME}-net2a
-    sudo ovs-vsctl add-port ${TUNNSWITCH_NAME} ${TUNNSWITCH_NAME}-net2b
-    sudo ovs-vsctl set port ${TUNNSWITCH_NAME}-net1b trunk=1001,1002
+    echo "-- Establishing connections for ${SWITCH2} scenario network..."
+    # Create ${SWITCH1} veth pair to connect ${SWITCH2} switch to ${TUNNSWITCH_NAME}-v1001 fake switch 
+    sudo ip link add ${TUNNSWITCH_NAME}-${SWITCH2}a type veth peer name ${TUNNSWITCH_NAME}-${SWITCH2}b
+    sudo ip link set ${TUNNSWITCH_NAME}-${SWITCH2}a up
+    sudo ip link set ${TUNNSWITCH_NAME}-${SWITCH2}b up
+    sudo ovs-vsctl add-port ${SWITCH2} ${TUNNSWITCH_NAME}-${SWITCH2}a
+    sudo ovs-vsctl add-port ${TUNNSWITCH_NAME} ${TUNNSWITCH_NAME}-${SWITCH2}b
+    sudo ovs-vsctl set port ${TUNNSWITCH_NAME}-${SWITCH1}b trunk=1001,1002
 
 fi
 
