@@ -21,22 +21,20 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
   <global>
     <version>2.0</version>
     <scenario_name>Connection_scenario</scenario_name>
-    <ssh_key>/root/.ssh/id_rsa.pub</ssh_key>
     <automac offset="0"/>
-    <!--vm_mgmt type="none"/-->
-    <vm_mgmt type="private" network="10.20.0.0" mask="24" offset="0">
+    <vm_mgmt type="none"/>
+    <!--<vm_mgmt type="private" network="10.20.0.0" mask="24" offset="0">
        <host_mapping />
-    </vm_mgmt> 
+    </vm_mgmt> -->
     <vm_defaults>
         <console id="0" display="no"/>
         <console id="1" display="yes"/>
     </vm_defaults>
-    <cmd-seq seq="step1-6"></cmd-seq>
   </global>
 
 
-  <net name="ExtNet" mode="openvswitch" mtu="1450"/>
-  <net name="VlanNet" mode="openvswitch" mtu="1450"/>
+  <net name="ExtNet" mode="openvswitch"/>
+  <net name="VlanNet" mode="openvswitch"/>
 
   <vm name="vm1-vlan_A" type="lxc" arch="x86_64">
     <filesystem type="cow">filesystems/rootfs_lxc_ubuntu64</filesystem>
@@ -47,10 +45,6 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
       </vlan>
       <ipv4>10.0.20.11/24</ipv4>
     </if>
-    <route type="ipv4" gw="10.0.20.1">default</route>
-    <!-- Copy /etc/hosts file -->
-    <exec seq="on_boot" type="verbatim">
-    </exec>
   </vm>
 
   <vm name="vm2-vlan_A" type="lxc" arch="x86_64">
@@ -62,10 +56,6 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
       </vlan>
       <ipv4>10.0.20.12/24</ipv4>
     </if>
-    <route type="ipv4" gw="10.0.20.1">default</route>
-    <!-- Copy /etc/hosts file -->
-    <exec seq="on_boot" type="verbatim">
-    </exec>
   </vm>
 
   <vm name="vm-ExtNet_A" type="lxc" arch="x86_64">
@@ -74,10 +64,6 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
     <if id="1" net="ExtNet">
       <ipv4>10.0.10.11/24</ipv4>
     </if>
-    <route type="ipv4" gw="10.0.10.1">default</route>
-    <!-- Copy /etc/hosts file -->
-    <exec seq="on_boot" type="verbatim">
-    </exec>
   </vm>
 
 
@@ -88,9 +74,6 @@ Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
     <hostif net="VlanNet">
        <ipv4>10.0.20.1/24</ipv4>
     </hostif>
-    <exec seq="on_boot" type="verbatim" ostype="system">
-
-    </exec>
   </host>
 
 </vnx>
