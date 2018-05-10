@@ -18,23 +18,32 @@ This repository develop two scenarios to connect OpenvSwitches between different
 
    - Start scenario:
        - In computer A:
+             
              - `chmod +x start_scenario`
+             
              - `./start_scenario A IpB`
        - In computer B:
+             
              - `chmod +x start_scenario`
+             
              - `./start_scenario B IpA`
  
    - Stop scenario:
        - In computer A:
+             
              - `chmod +x stop_scenario`
+             
              - `./stop_scenario A`
        - In computer B:
+             
              - `chmod +x stop_scenario`
+             
              - `./stop_scenario B`
              
              
  ## Notes
  Notice that IpA and IpB are the systems IP that the other computer knows
  
+  ## Graph
  ![scenario_graph](https://github.com/carlosv5/Connection-Servers-Scenario/blob/master/img/graph.png)
 
